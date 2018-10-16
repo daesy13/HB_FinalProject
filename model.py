@@ -17,13 +17,14 @@ class User(db.Model):
     __tablename__ = "users"
 
     user_id = db.Column(db.Integer, autoincrement=True, primary_key=True)
-    user_name = db.Column(db.String(100), unique=True, nullable=False)
+    user_name = db.Column(db.String(100), unique=True, nullable=True)
     #check and use enum type
-    gender = db.Column(db.String(15), nullable=False)
-    email = db.Column(db.String(64), unique=True, nullable=False)
-    password = db.Column(db.String(64), nullable=False)
-    road_name = db.Column(db.String(15), nullable=False)
-    image_file = db.Column(db.String(512), nullable=False, default='/static/default.png')
+    gender = db.Column(db.String(15), nullable=True)
+    email = db.Column(db.String(64), unique=True, nullable=True)
+    password = db.Column(db.String(64), nullable=True)
+    road_name = db.Column(db.String(15), nullable=True)
+    image_file = db.Column(db.String(512), nullable=True, default='/static/default.png')
+    somethingabout = db.Column(db.String(512), nullable=True)
 
     def __repr__(self):
         return f"<User user_id={self.user_id} user_name={self.user_name} road_name={self.road_name}>"
@@ -63,6 +64,7 @@ class BarPicture(db.Model):
 
     def __repr__(self):
         return f"<BarPicture picture_id={self.picture_id} bar_name={self.bar.bar_name}>"
+
 
 class Rating(db.Model):
     """Rating of bar by a user"""
