@@ -23,8 +23,9 @@ class User(db.Model):
     email = db.Column(db.String(64), unique=True, nullable=True)
     password = db.Column(db.String(64), nullable=True)
     road_name = db.Column(db.String(15), nullable=True)
+    somethingabout = db.Column(db.String(512), nullable=True, default='I love riding')
     image_file = db.Column(db.String(512), nullable=True, default='/static/default.png')
-    somethingabout = db.Column(db.String(512), nullable=True)
+
 
     def __repr__(self):
         return f"<User user_id={self.user_id} user_name={self.user_name} road_name={self.road_name}>"
@@ -60,7 +61,7 @@ class BarPicture(db.Model):
     bar_id = db.Column(db.Integer, db.ForeignKey('bars.bar_id'), nullable=False)
 
     # Define relationship to barsandgrill
-    bars = db.relationship("Bar", backref=db.backref("barpictures", order_by=picture_id))
+    bar = db.relationship("Bar", backref=db.backref("barpictures", order_by=picture_id))
 
     def __repr__(self):
         return f"<BarPicture picture_id={self.picture_id} bar_name={self.bar.bar_name}>"
@@ -72,9 +73,9 @@ class Rating(db.Model):
     __tablename__ = "ratings"
 
     rating_id = db.Column(db.Integer, autoincrement=True, primary_key=True)
-    bar_id = db.Column(db.Integer, db.ForeignKey('bars.bar_id'), nullable=False)
-    user_id = db.Column(db.Integer, db.ForeignKey('users.user_id'), nullable=False)
-    bar_rating = db.Column(db.Integer)
+    bar_id = db.Column(db.Integer, db.ForeignKey('bars.bar_id'))
+    user_id = db.Column(db.Integer, db.ForeignKey('users.user_id'))
+    bar_rating = db.Column(db.Integer, nullable=True)
 
     # Define relationship to bars
     bar = db.relationship("Bar", backref=db.backref("ratings", order_by=rating_id))

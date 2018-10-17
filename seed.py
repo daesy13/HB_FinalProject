@@ -24,7 +24,7 @@ def load_users(users_file):
     for i, row in enumerate(open(users_file)):
         row = row.rstrip()
         print(row)
-        user_id, user_name, email, password, gender, road_name = row.split("|")
+        user_id, user_name, email, password, gender, road_name, somethingabout, image_file = row.split("|")
 
         users = User(user_id=user_id,
                     user_name=user_name,
@@ -32,8 +32,8 @@ def load_users(users_file):
                     password=password,
                     road_name=road_name,
                     gender=gender,
-                    image_file=image_file,
-                    somethingabout=somethingabout)
+                    somethingabout=somethingabout,
+                    image_file=image_file)
 
         # We need to add to the session or it won't ever be stored
         db.session.add(users)
@@ -78,7 +78,7 @@ def load_bars(bars_file):
     # Once we're done, we should commit our work
     db.session.commit()
 
-def load_users(ratings_file):
+def load_ratings(ratings_file):
     """Load users from u.user into database."""
 
     print("Ratings")

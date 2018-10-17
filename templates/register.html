@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<!-- jumbotron -->
+    <div class="jumbotron jumbotron-fluid bg-dark text-white">
+      <div class="container text-sm-center pt-5">
+        <h1 class="display-2">NOMAD</h1>
+        <p class="lead">REGISTRATION FORM</p>
+      </div>
+    </div><!-- /jumbotron -->
+<div class="container pt-4">
+<form action="register" method="POST">
+  <div class="form-group pt-2">
+    <label for="exampleInputFullName">Full Name</label>
+    <input name="name" class="form-control" id="exampleInputFullName" placeholder="Enter your Full Name">
+  </div>
+  <div class="form-group pt-2">
+    <select id="gender" name="gender">
+      <option value="female">F</option>
+      <option value="male">M</option>
+    </select>
+  </div>
+  <div class="form-group pt-2">
+    <label for="exampleInputRoadname">Road Name</label>
+    <input name="road_name" class="form-control" id="exampleInputRoadname" placeholder="Create your Road Name">
+  </div>
+  <div class="form-group pt-2">
+    <label for="exampleInputEmail1">Email address</label>
+    <input type="email" name="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email">
+    <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
+  </div>
+  <div class="form-group pt-2">
+    <label for="exampleInputPassword1">Password</label>
+    <input type="password" name="password" class="form-control" id="exampleInputPassword1" placeholder="Password">
+  </div>
+  <button type="submit" class="btn btn-primary">Submit</button>
+</form>
+</div>
+
+{% endblock %}

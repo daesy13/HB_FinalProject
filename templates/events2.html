@@ -1,0 +1,127 @@
+{% extends "base.html" %}
+{% block content %}
+    <!-- jumbotron -->
+    <div class="jumbotron jumbotron-fluid bg-dark text-white">
+      <div class="container text-sm-center pt-1">
+        <h1 class="display-2">NOMAD</h1>
+        <p class="lead">Plan your next bike ride!</p>
+      </div>
+    </div><!-- /jumbotron -->
+
+
+    <style>
+      /* Always set the map height explicitly to define the size of the div
+       * element that contains the map. */
+      #map {
+        height: 400px;
+        width: 60%;
+      }
+      /* Optional: Makes the sample page fill the window. */
+      html, body {
+        height: 100%;
+        margin: 0;
+        padding: 0;
+      }
+    </style>
+
+    <h1> My Google Map </h1>
+    <div class="container ">
+    <!-- bar list -->
+    {% for bar in bars %}
+
+    <div class="card" style="width: 18rem;"><!-- list of group layer -->
+      <ul class="list-group list-group-flush">
+        <li class="list-group-item">{{ bar.bar_name }}</li>
+      </ul>
+    </div><!-- /list of group layer -->
+    {% endfor %}<!-- /bar list -->
+
+    <div id="map"></div>
+    <script>
+      function initMap() {
+        // Map Options
+        var options = {
+            zoom:10,
+            center: {lat:38.0049 , lng: -121.8058}
+        }
+
+        // New Map
+        var map = new google.maps.Map(document.getElementById('map'), options);
+
+        // Resize map icon
+        var icon = {
+            url: '/static/img/beer.png', // link
+            scaledSize: new google.maps.Size(20, 20), // scaled size
+            origin: new google.maps.Point(0,0), // origin
+            anchor: new google.maps.Point(0, 0) // anchor
+        };
+
+
+        /*
+        // Add Marker
+        var marker = new google.maps.Marker({
+            position:{lat:38.0161 , lng:-121.8034},
+            map:map,
+            icon:icon
+        });
+
+        // bar name used for Info Window
+        var contentString = '<div id="content">' + '<h1>The Red Caboose</h1>' + '</div>';
+
+        // Info Window for Marker shows bar name
+        var infoWindow = new google.maps.InfoWindow({
+            content: contentString,
+            maxWidth: 200
+        });
+
+        // calling function after click
+        marker.addListener('click', function() {
+            infoWindow.open(map, marker);
+        });
+        */
+
+        addMarker({
+            coords:{lat:38.0161 , lng:-121.8034},
+            content:'<h1>Red Caboose</h1>'
+        });
+
+        addMarker({
+            coords:{lat:37.8742 , lng:-121.641530},
+            content:'<h1>Wild Idol</h1>'
+        });
+
+        // Add Marker Function
+        function addMarker(info){
+            var marker = new google.maps.Marker({
+            position:info.coords,
+            map:map,
+            icon:icon
+        });
+
+
+        // // Check for icon image
+        // if(props.iconImage){
+        //     // Set icon image
+        //     marker.setIcon(props.iconImage);
+        // }
+
+        // Show prop content
+        // Info Window for Marker shows bar name
+        var infoWindow = new google.maps.InfoWindow({
+            content: info.content
+        });
+
+
+        marker.addListener('click', function(){
+            infoWindow.open(map, marker);
+          });
+
+        }
+
+      }
+    </script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBPY9xp5fq2DeZ8MqOwNzUwQ7hiVg8177Y&callback=initMap"
+    async defer></script>
+    </div>
+
+{% endblock %}
