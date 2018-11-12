@@ -40,7 +40,7 @@ span + input[type=radio] + label, legend + input[type=radio] + label {
     counter-reset: checkbox;
 }
 
-.rating input[type="radio"]:required + label:after {
+/*.rating input[type="radio"]:required + label:after {
     content: '';
     position: absolute;
     left: 340px;
@@ -51,7 +51,7 @@ span + input[type=radio] + label, legend + input[type=radio] + label {
     padding: 10px 10px;
     display: block;
     width: 80px;
-}
+}*/
 
 .rating label.stars {
     background: transparent url('../img/star_off.png') no-repeat center center;
@@ -67,3 +67,23 @@ span + input[type=radio] + label, legend + input[type=radio] + label {
 .rating input[type=radio][name=stars]:required + label.stars:after {
     content: counter(checkbox) " stars!";
 }
+
+/*JUMBOTRON*/
+/*.jumbotron.jumbotron-fluid.bg-info.text-white {
+    margin-bottom: 0px;
+    background-image: url(https://www.harley-davidson.com/content/dam/h-d/images/motorcycles/my19/softail/family/scene/dom/19-softail-family-gallery-1.jpg);
+    background-position: 0% 25%;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-color: #000000; }
+}
+*/
+
+/*.jumbotron.jumbotron-fluid.bg-info.text-white{
+    margin-bottom: 0px;
+    background-image: url('../img/barnbikes.png');
+    background-position: 0% 25%;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-color: #000000;
+}*/

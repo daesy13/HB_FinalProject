@@ -10,6 +10,12 @@
 //     });
 // });
 
-$(".rating").click(function(){
-    alert("you rate it!");
-});
+// $(".rating").click(function(){
+//     alert("you rate it!");
+// });
+
+// function alertMe(evt) {
+//   alert("Don't click that, please.");
+// }
+
+// $('.rating').on('click', alertMe);

@@ -1,4 +1,32 @@
 {% extends "base.html" %}
+{% block styles %}
+<style>
+    .btn-group-lg>.btn, .btn-lg {
+    font-size: 12px;
+    line-height: 1.5;
+    width: 275px;
+    }
+
+    a {
+        color: limegreen;
+    }
+
+    body {
+        background-color: lightgray;
+    }
+
+    .nav-tabs {
+    border-bottom: 1px solid gray;
+    }
+
+    .nav-tabs .nav-item.show .nav-link, .nav-tabs .nav-link.active {
+    color: white;
+    background-color: gray;
+    border-color: transparent;
+    }
+
+</style>
+{% endblock %}
 {% block content %}
    <!--  profile content -->
 <!-- Include the above in your HEAD tag -->
@@ -8,7 +36,7 @@
             <div class="col-md-4">
                 <div class="profile-img">
                     <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS52y5aInsxSm31CvHOFHWujqUx_wWTS9iM6s7BAm21oEN_RiGoog" alt=""/>
-                    <div class="file btn btn-lg btn-primary">
+                    <div class="file btn btn-lg btn-success">
                         Change Photo
                         <input type="file" name="file"/>
                     </div>
@@ -26,21 +54,21 @@
                         <li class="nav-item">
                             <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">My Ratings</a>
                         </li>
-                        <li class="nav-item">
+                        <!-- <li class="nav-item">
                             <a class="nav-link" id="profile-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="false">My Rides</a>
-                        </li>
+                        </li> -->
                     </ul>
                 </div>
             </div>
             <div class="col-md-2">
-                <input type="submit" class="profile-edit-btn" name="btnAddMore" value="Edit Profile"/>
+                <input type="submit" class="profile-edit-btn btn-success" name="btnAddMore" value="Edit Profile"/>
             </div>
         </div>
         <!-- profile info under picture -->
         <div class="row">
-            <div class="col-md-4">
+            <div class="col-md-4 pt-4">
                 <div class="col-md-4">
-                    <p>PROFILE</p>
+                    <!-- <p>PROFILE</p> -->
                 </div>
                 <div class="row">
                 <div class="col-md-4">
@@ -81,7 +109,7 @@
                         {% for rating in user.ratings %}
                           <li>
                             <a href="/bars/{{ rating.bar_id }}">{{ rating.bar.bar_name }}</a>
-                            was rated {{ rating.score }}
+                            was rated {{ rating.bar_rating + 1 }} out of 5
                           </li>
                         {% endfor %}
                         </ul>

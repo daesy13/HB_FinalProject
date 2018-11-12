@@ -6,6 +6,7 @@ from sqlalchemy import func
 from model import User
 from model import Bar
 from model import Rating
+from model import Event
 
 from model import connect_to_db, db
 from server import app
@@ -58,7 +59,7 @@ def load_bars(bars_file):
     for i, row in enumerate(open(bars_file)):
         row = row.rstrip()
         print(row)
-        bar_id, bar_name, bar_address, bar_city, bar_state, bar_zip, bar_phone = row.split("|")
+        bar_id, bar_name, bar_address, bar_city, bar_state, bar_zip, bar_phone, bar_pic = row.split("|")
 
         bars = Bar(bar_id=bar_id,
                     bar_name=bar_name,
@@ -66,7 +67,8 @@ def load_bars(bars_file):
                     bar_city=bar_city,
                     bar_state=bar_state,
                     bar_zip=bar_zip,
-                    bar_phone=bar_phone)
+                    bar_phone=bar_phone,
+                    bar_pic=bar_pic)
 
         # We need to add to the session or it won't ever be stored
         db.session.add(bars)
@@ -108,6 +110,40 @@ def load_ratings(ratings_file):
     # Once we're done, we should commit our work
     db.session.commit()
 
+def load_events(events_file):
+    """Load events from u.user into database."""
+
+    print("Events")
+
+    # Delete all rows in table, so if we need to run this a second time,
+    # we won't be trying to add duplicate events
+    Event.query.delete()
+
+    # Read u.user file and insert data
+    for i, row in enumerate(open(events_file)):
+        row = row.rstrip()
+        print(row)
+        e_id, user_id, welcome, e_intro, e_title, e_date, time, location_name, e_start, e_waypoints, e_endpoint = row.split("|")
+
+        events = Event(e_id=e_id,
+                    user_id=user_id,
+                    welcome=welcome,
+                    e_intro=e_intro,
+                    e_title=e_title,
+                    e_date=e_date,
+                    time=time,
+                    location_name=location_name,
+                    e_start=e_start,
+                    e_waypoints=e_waypoints,
+                    e_endpoint=e_endpoint)
+
+        # We need to add to the session or it won't ever be stored
+        db.session.add(events)
+
+    # Once we're done, we should commit our work
+    db.session.commit()
+
+
 def set_val_user_id():
     """Set value for the next user_id after seeding database"""
 
@@ -130,9 +166,11 @@ if __name__ == "__main__":
     users_file = "seed_data/u.data"
     bars_file = "seed_data/b.info"
     ratings_file = "seed_data/r.rating"
+    events_file = "seed_data/e.info"
     load_users(users_file)
     load_bars(bars_file)
     load_ratings(ratings_file)
+    load_events(events_file)
     set_val_user_id()
 
 

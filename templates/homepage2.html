@@ -1,40 +1,53 @@
 {% extends "base.html" %}
+{% block styles %}
+<style>
+  body {
+    background-image: url("static/img/opabarnbikes.png");
+    background-position: 0% -100%;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-color: #000000;
+    background-opacity: 0.5;
+    margin-top: 60px;
+    height: 74vh;
+  }
+
+  .jumbotron {
+    background-color: transparent;
+  }
+  .card.card-fluid {
+    margin: auto;
+    margin-top: 100px;
+    background-color: transparent;
+  }
+  .display-2{
+    color: white;
+  }
+
+  .lead {
+    color: white;
+  }
+</style>
+{% endblock %}
+
 {% block content %}
+
     <!-- jumbotron -->
-    <div class="jumbotron jumbotron-fluid bg-info text-white">
-      <div class="container text-sm-center pt-5">
+    <!-- <div class="jumbotron jumbotron-fluid text-white">
+      <div class="container text-sm-center pt-5"> -->
+    <div class="card card-fluid" style="width: 36rem;">
+      <div class="card-body text-sm-center pt-5">
         <h1 class="display-2">NOMAD</h1>
         <p class="lead">Plan your next bike ride!</p>
 
         <div class="btn-group mt-4" role="group" aria-label="Callout buttons">
           <a class="btn btn-primary btn-lg" href="/register">Register Now</a>
-          <a class="btn btn-light btn-lg" href="/events">See Events</a>
+          <a class="btn btn-light btn-lg" href="/PublicEvent">See Events</a>
         </div>
 
       </div>
-    </div><!-- /jumbotron -->
 
-    <div class="container pt-4">
-
-    <!-- callout button -->
-    <button type="button" class="btn btn-outline-info btn-lg d-block mx-auto my-5">Don't Miss Out, Register Now</button>
-
-    <!-- signup form -->
-    <hr>
-    <div class="row py-4 text-muted">
-      <div class="col-md col-xl-5 ml-auto">
-        <p><strong>Stay up-to-date on our future events</strong></p>
-        <div class="input-group">
-          <input type="text" class="form-control" placeholder="Email">
-          <span class="input-group-btn">
-            <button class="btn btn-primary" type="button">Sign up</button>
-          </span>
-        </div>
-      </div>
-    </div>
-    <hr><!-- /signup form -->
-
-  </div><!-- /.container -->
+  </div><!-- /jumbotron -->
 
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->

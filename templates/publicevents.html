@@ -1,0 +1,97 @@
+{% extends "base.html" %}
+{% block styles %}
+<style>
+  body {
+    background-color: gray;
+  }
+
+  .card {
+    border: 0px;
+    background-color: transparent;
+  }
+
+  .card-img-top{
+    height: 500px;
+  }
+
+  .ml-5 {
+    margin-left: 4.5rem;
+  }
+
+  a {
+    color: #000000;
+  }
+
+  .row {
+    object-position: center;
+    margin-right: 0px;
+    margin-left: 200px;
+  }
+</style>
+{% endblock %}}
+
+{% block content %}
+
+<!-- jumbotron -->
+    <div class="jumbotron jumbotron-fluid bg-dark text-white">
+      <div class="container text-sm-center pt-5">
+        <h1 class="display-2">NOMAD</h1>
+        <p class="lead">Plan your next bike ride!</p>
+      </div>
+    </div>
+<!-- /jumbotron -->
+
+<!-- events -->
+    <h1 id="events" class="display-4 text-center my-5 text-white" >Events</h1>
+    <div class="row">
+      <div class="col-md-4 ml-5">
+        <a href="http://www.hellsangelsrichmond.com/news/187/0/poker-run-2018" title="Poker Run 2018">
+          <div class="card mb-3">
+            <img class="card-img-top" src="static/img/pubevt/rwpokerrun1.png" alt="PokerRun1">
+            <div class="card-body">
+              <h5 class="card-title">Port Costa, CA</h5>
+              <!-- <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p> -->
+            </div>
+          </div>
+        </a>
+      </div>
+
+      <div class="col-md-4 ml-5">
+        <a href="https://www.facebook.com/events/269756707011348/" title="Veteran Run 2018">
+          <div class="card mb-3">
+            <img class="card-img-top" src="static/img/pubevt/vetrun.png" alt="veteranrun">
+            <div class="card-body">
+              <h5 class="card-title">Fresno, CA</h5>
+              <!-- <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p> -->
+            </div>
+          </div>
+        </a>
+      </div>
+
+      <div class="col-md-4 ml-5">
+        <a href="http://www.renegadeevents.com/toyrun-modesto/modesto-toyrun.html" title="Renegade Toy Run 2018">
+          <div class="card mb-3">
+            <img class="card-img-top" src="static/img/pubevt/renegaderun.png" alt="toyrun">
+            <div class="card-body">
+              <h5 class="card-title">Modesto, CA</h5>
+              <!-- <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p> -->
+            </div>
+          </div>
+        </a>
+      </div>
+
+      <div class="col-md-4 ml-5">
+        <a href="https://www.facebook.com/events/960741164118156/" title="Easy Rider 2019">
+          <div class="card mb-3">
+            <img class="card-img-top" src="static/img/pubevt/easyrider.png" alt="toyrun">
+            <div class="card-body">
+              <h5 class="card-title">Sacramento, CA</h5>
+              <!-- <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p> -->
+            </div>
+          </div>
+        </a>
+      </div>
+
+    </div><!-- /events -->
+
+{% endblock %}

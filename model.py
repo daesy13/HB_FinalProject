@@ -44,7 +44,9 @@ class Bar(db.Model):
     bar_state = db.Column(db.String(100), nullable=False)
     bar_zip = db.Column(db.Integer, nullable=False)
     bar_phone = db.Column(db.String(15), nullable=True)
-    bar_pic = db.Column(db.String(512), nullable=True, default='/static/bardefault.jpg')
+    bar_pic = db.Column(db.String(512), nullable=True)
+    # bar_pic = db.Column(db.String(512), nullable=True, default='/static/bardefault.jpg')
+    # bar_avg = db.Column(db.Integer, default=0)
     # there is another way gor actual pics
 
     def __repr__(self):
@@ -86,6 +88,28 @@ class Rating(db.Model):
     def __repr__(self):
         return f"<Rating rating_id={self.rating_id} bar_id={self.bar_id} bar_rating={self.bar_rating}>"
 
+class Event(db.Model):
+    """Save data for user's events"""
+
+    __tablename__ = "events"
+
+    e_id=db.Column(db.Integer, autoincrement=True, primary_key=True)
+    user_id=db.Column(db.Integer, db.ForeignKey('users.user_id'))
+    welcome=db.Column(db.String(255), nullable=True)
+    e_intro=db.Column(db.String(255), nullable=True)
+    e_title=db.Column(db.String(255), nullable=False)
+    e_date=db.Column(db.String(10), nullable=True)
+    time=db.Column(db.String(10), nullable=False)
+    location_name=db.Column(db.String(255), nullable=False)
+    e_start=db.Column(db.String(255), nullable=False)
+    e_waypoints=db.Column(db.String(1000), nullable=False)
+    e_endpoint=db.Column(db.String(255), nullable=False)
+
+    # Define relationship to user
+    user = db.relationship("User", backref=db.backref("events", order_by=user_id))
+
+    def __repr__(self):
+        return f"<Rating e_id={self.e_id} e_title={self.e_title} e_date={self.e_date}>"
 
 def connect_to_db(app):
     """Connect the database to our Flask app"""

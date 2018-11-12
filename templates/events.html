@@ -1,16 +1,10 @@
 {% extends "base.html" %}
-{% block content %}
-    <!-- jumbotron -->
-    <div class="jumbotron jumbotron-fluid bg-dark text-white">
-      <div class="container text-sm-center pt-1">
-        <h1 class="display-2">NOMAD</h1>
-        <p class="lead">Plan your next bike ride!</p>
-      </div>
-    </div><!-- /jumbotron -->
-
-    <!-- CSS style -->
-    <style>
-      /* Always set the map height explicitly to define the size of the div
+{% block styles %}
+<style>
+  body {
+    background-color: gray;
+  }
+  /* Always set the map height explicitly to define the size of the div
        * element that contains the map. */
       #map {
         height: 400px;
@@ -22,6 +16,10 @@
         margin: 0;
         padding: 0;
       }
+
+      /*b {
+        padding-bottom: 10px;
+      }*/
 
       #right-panel {
         font-family: 'Roboto','sans-serif';
@@ -38,7 +36,10 @@
       }
 
       #right-panel {
-        margin: 20px;
+        margin-top: -10px;
+        margin-left: 100px;
+        /*margin: 20px;*/
+        width: 400px;
         border-width: 2px;
         width: 50%;
         height: 400px;
@@ -47,19 +48,31 @@
         padding-top: 0;
       }
 
-    </style><!-- /CSS style -->
+      .rating{
+        background-color: #f6f3f305;
+      }
 
-    <h1> Plan your next bike ride! </h1>
-    <div class="container ">
-    <!-- bar list -->
-    {% for bar in bars|sort (attribute='bar_name') %}
-    <div class="card" style="width: 18rem;"><!-- list of group layer -->
-      <ul class="list-group list-group-flush">
-        <li class="list-group-item">{{ bar.bar_name }}</li>
-      </ul>
-    </div><!-- /list of group layer -->
-    {% endfor %}<!-- /bar list -->
+      #right-panel {
+        width: 20%;
+      }
+</style>
+{% endblock %}
 
+{% block content %}
+    <!-- jumbotron -->
+    <div class="jumbotron jumbotron-fluid bg-dark text-white pb-3">
+      <div class="container text-sm-center pt-1">
+        <h1 class="display-2">NOMAD</h1>
+        <p class="lead display-5 text-center my-1 text-white">Plan your next bike ride!</p>
+      </div>
+    </div><!-- /jumbotron -->
+
+
+
+    <!-- <h1 id="next_ride" class="display-4 text-center my-1 text-white"> Plan your next bike ride! </h1> -->
+    <div class="container pt-5">
+
+    <div class="row">
     <!-- map -->
     <div id="map"></div><!-- /map -->
 
@@ -88,11 +101,11 @@
     </form>
 
     <br>
-      <input type="submit" id="submit">
+      <input type="submit" id="submit" value="Submit Route" class="btn btn-success">
     </div>
     <div id="directions-panel"></div>
     </div><!-- /waypoint display -->
-
+    </div>
     <script>
       function initMap() {
         var directionsService = new google.maps.DirectionsService;
@@ -199,6 +212,8 @@
 
 
     <!-- API GOES HERE ADD WHEN NEED IT -->
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDUJWRBlAzqy7nETA9rfsRxT7-RZMxxBXA&callback=initMap"
+    async defer></script>
 
     </div>
 
