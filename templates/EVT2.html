@@ -77,38 +77,25 @@
     <meta property="og:image"              content="http://static01.nyt.com/images/2015/02/19/arts/international/19iht-btnumbers19A/19iht-btnumbers19A-facebookJumbo-v2.jpg" />
     <!-- /Share configuration FB -->
 
-
-    {% for e in event %}
-    <!-- base page -->
-    <!-- <div class="container row" style="text-align: center;"> -->
-
-      <div class="col-md-12 pt-5" style="text-align: center;">
-      <div class="row">
-      <div class="col-md-3"style="display: inline-block; text-align: left;">
-      </div>
-        <div class="col-md-6"style="display: inline-block; text-align: left;">
-
-      <!-- <img src="/static/img/barnbikes.png" align="background" alt="Cupcake"> -->
+{% for e in event %}
+<!-- base page -->
+<!-- <div class="container row" style="text-align: center;"> -->
+  <div class="col-md-12 pt-5" style="text-align: center;">
+    <div class="row">
+    <div class="col-md-3"style="display: inline-block; text-align: left;"></div>
+      <div class="col-md-6"style="display: inline-block; text-align: left;">
 
       <h2>{{ e.welcome }}</h2>
-
       <p>{{ e.e_intro }}</p>
-
       <!-- event title -->
       <h2>{{ e.e_title }}</h2> <!-- /event title -->
-
       <p>Host by {{ e.user.user_name }}</p>
-
       <p>Date: {{ e.e_date }}</p>
-
       <p>Time: {{ e.time }}</p>
-
       <p>First Stop: {{ e.location_name }}</p>
-
       <p>Event Description: Please join us for our 11th Annual Christmas Round Robin! You know the routine! Big dinner at the last stop!!</p>
 
-
-    </div>
+      </div>
     <!-- /base page -->
     <div class="col-md-2"style="display: inline-block; text-align: left;">
     <!-- Your share button code -->
@@ -117,13 +104,13 @@
     </div>
     </div>
 
-  </div>
-  {% endfor %}
+  </div><!-- /<div class="container row" style="text-align: center;"> -->
+{% endfor %}
 
 
 
     <!-- waypoint display -->
-    {% for e in event %}
+    <!-- {% for e in event %} -->
     <!-- START FIRST MAP -->
     <!-- <script type="text/javascript">
     function calculateAndDisplayRoute(directionsService, directionsDisplay) {
@@ -190,116 +177,111 @@
       }
 
     </script> -->
-    <!-- FINISH FIRST MAP -->
-    <div class="container pt-5">
-
+{% for e in event %}
+<!-- FINISH FIRST MAP -->
+<!-- container pt-5 -->
+  <div class="container pt-5">
+  <!-- class row -->
     <div class="row">
-    <!-- map -->
-    <div id="map"></div><!-- /map -->
+      <!-- map -->
+      <div id="map"></div><!-- /map -->
 
-    <!-- waypoint display -->
-    <div id="right-panel">
-    <b>Start:</b>
-    <form>
-    <input type="text" id="start" name="location">
-    </form>
+      <!-- waypoint display -->
+      <div id="right-panel">
+      <b>Start:</b>
+      <form>
+      <input type="text" id="start" name="location">
+      </form><br>
 
-    <br>
+      <b>Waypoints:</b><br>
+      <i>(Ctrl+Click or Cmd+Click for multiple selection)</i> <br>
+        <select multiple id="waypoints">
+          {% for bar in bars|sort (attribute='bar_name') %}
+          <option value="{{ bar.bar_address + ' ' + bar.bar_city + ',' + bar.bar_state }}">{{ bar.bar_name }}</option>
+          {% endfor %}
+        </select><br>
 
-    <b>Waypoints:</b> <br>
-    <i>(Ctrl+Click or Cmd+Click for multiple selection)</i> <br>
-    <select multiple id="waypoints">
-    {% for bar in bars|sort (attribute='bar_name') %}
-    <option value="{{ bar.bar_address + ' ' + bar.bar_city + ',' + bar.bar_state }}">{{ bar.bar_name }}</option>
-    {% endfor %}
-    </select>
-    <br>
+      <br>
+      <b>End:</b>
+      <form>
+      <input type="text" id="end" name="location">
+      </form><br>
 
-    <br>
-    <b>End:</b>
-    <form>
-    <input type="text" id="end" name="location">
-    </form>
-
-    <br>
       <input type="submit" id="submit" value="Submit Route" class="btn btn-success">
-    </div>
-    <div id="directions-panel"></div>
-    </div><!-- /waypoint display -->
-    </div>
-    <script>
-      function initMap() {
-        var directionsService = new google.maps.DirectionsService;
-        var directionsDisplay = new google.maps.DirectionsRenderer;
+      </div><!-- /waypoint display - right panel -->
+      <div id="directions-panel"></div>
+    </div><!-- /class row -->
+  </div><!-- /container pt-5 -->
 
-        // Map Options
-        var options = {
-            zoom:10,
-            center: {lat:38.0049 , lng: -121.8058}
-        }
-        // New Map
-        var map = new google.maps.Map(document.getElementById('map'), options);
+  <script>
+    function initMap() {
+      var directionsService = new google.maps.DirectionsService;
+      var directionsDisplay = new google.maps.DirectionsRenderer;
 
-        directionsDisplay.setMap(map);
-
-
-        // document.getElementById('submit').addEventListener('onclick', function() {
-        //   calculateAndDisplayRoute(directionsService, directionsDisplay);
-
-        // });
-        calculateAndDisplayRoute(directionsService, directionsDisplay);
-
-        }
-
-
-      function calculateAndDisplayRoute(directionsService, directionsDisplay) {
-        var waypts = [];
-        var checkboxArray = document.getElementById('waypoints');
-        for (var i = 0; i < checkboxArray.length; i++) {
-          if (checkboxArray.options[i].selected) {
-            waypts.push({
-              location: checkboxArray[i].value,
-              stopover: true
-            });
-          }
-        }
-
-        directionsService.route({
-          origin: "{{ e.e_start}}",
-          destination: "{{ e.e_endpoint}}",
-          waypoints: ["{{ e.e_waypoints }}"],
-          optimizeWaypoints: true,
-          travelMode: 'DRIVING'
-        }, function(response, status) {
-          if (status === 'OK') {
-            directionsDisplay.setDirections(response);
-            var route = response.routes[0];
-            var summaryPanel = document.getElementById('directions-panel');
-            summaryPanel.innerHTML = '';
-            // For each route, display summary information.
-            for (var i = 0; i < route.legs.length; i++) {
-              var routeSegment = i + 1;
-              summaryPanel.innerHTML += '<b>Route Segment: ' + routeSegment +
-                  '</b><br>';
-              summaryPanel.innerHTML += route.legs[i].start_address + ' to ';
-              summaryPanel.innerHTML += route.legs[i].end_address + '<br>';
-              summaryPanel.innerHTML += route.legs[i].distance.text + '<br><br>';
-            }
-          } else {
-            window.alert('Directions request failed due to ' + status);
-          }
-        });
+      // Map Options
+      var options = {
+          zoom:10,
+          center: {lat:38.0049 , lng: -121.8058}
       }
-    </script>
+      // New Map
+      var map = new google.maps.Map(document.getElementById('map'), options);
+
+      directionsDisplay.setMap(map);
 
 
+      // document.getElementById('submit').addEventListener('onclick', function() {
+      //   calculateAndDisplayRoute(directionsService, directionsDisplay);
+
+      // });
+      calculateAndDisplayRoute(directionsService, directionsDisplay);
+
+      }
+
+
+    function calculateAndDisplayRoute(directionsService, directionsDisplay) {
+      var waypts = [];
+      var checkboxArray = document.getElementById('waypoints');
+      for (var i = 0; i < checkboxArray.length; i++) {
+        if (checkboxArray.options[i].selected) {
+          waypts.push({
+            location: checkboxArray[i].value,
+            stopover: true
+          });
+        }
+      }
+
+      directionsService.route({
+        origin: "{{ e.e_start}}",
+        destination: "{{ e.e_endpoint}}",
+        waypoints: ["{{ e.e_waypoints }}"],
+        optimizeWaypoints: true,
+        travelMode: 'DRIVING'
+      }, function(response, status) {
+        if (status === 'OK') {
+          directionsDisplay.setDirections(response);
+          var route = response.routes[0];
+          var summaryPanel = document.getElementById('directions-panel');
+          summaryPanel.innerHTML = '';
+          // For each route, display summary information.
+          for (var i = 0; i < route.legs.length; i++) {
+            var routeSegment = i + 1;
+            summaryPanel.innerHTML += '<b>Route Segment: ' + routeSegment +
+                '</b><br>';
+            summaryPanel.innerHTML += route.legs[i].start_address + ' to ';
+            summaryPanel.innerHTML += route.legs[i].end_address + '<br>';
+            summaryPanel.innerHTML += route.legs[i].distance.text + '<br><br>';
+          }
+        } else {
+          window.alert('Directions request failed due to ' + status);
+        }
+      });
+    }
+  </script>
+{% endfor %}
 
     <!-- API GOES HERE ADD WHEN NEED IT -->
     <!-- <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDUJWRBlAzqy7nETA9rfsRxT7-RZMxxBXA&callback=initMap"
     async defer></script> -->
-
-    </div>
-    {% endfor %}
 
 
     <!-- Map API GOES HERE ADD WHEN NEED IT -->
@@ -312,6 +294,7 @@
     var directionsDisplay = new google.maps.DirectionsRenderer;
     calculateAndDisplayRoute(directionsService, directionsDisplay);
     </script>
+
     <!-- Load Facebook SDK for JavaScript -->
     <div id="fb-root"></div>
     <script>(function(d, s, id) {
@@ -322,9 +305,5 @@
       fjs.parentNode.insertBefore(js, fjs);
     }(document, 'script', 'facebook-jssdk'));</script>
     <!-- /Load Facebook SDK for JavaScript -->
-
-
-
-
 
 {% endblock %}

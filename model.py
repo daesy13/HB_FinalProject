@@ -104,6 +104,10 @@ class Event(db.Model):
     e_start=db.Column(db.String(255), nullable=False)
     e_waypoints=db.Column(db.String(1000), nullable=False)
     e_endpoint=db.Column(db.String(255), nullable=False)
+    bar_id = db.Column(db.Integer, db.ForeignKey('bars.bar_id'))
+
+    # Define relationship to bars
+    bar = db.relationship("Bar", backref=db.backref("events", order_by=bar_id))
 
     # Define relationship to user
     user = db.relationship("User", backref=db.backref("events", order_by=user_id))

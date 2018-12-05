@@ -1,0 +1,253 @@
+{% extends "base.html" %}
+{% block styles %}
+<style>
+  body {
+    background-color: lightgray;
+  }
+  /* Always set the map height explicitly to define the size of the div
+       * element that contains the map. */
+      #map {
+        height: 400px;
+        width: 60%;
+      }
+      /* Optional: Makes the sample page fill the window. */
+      html, body {
+        height: 100%;
+        margin: 0;
+        padding: 0;
+      }
+
+      /*b {
+        padding-bottom: 10px;
+      }*/
+
+      #right-panel {
+        font-family: 'Roboto','sans-serif';
+        line-height: 30px;
+        padding-left: 10px;
+      }
+
+      #right-panel select {
+        width: 100%;
+      }
+
+      #right-panel i {
+        font-size: 12px;
+      }
+
+      #right-panel {
+        margin-top: -10px;
+        margin-left: 100px;
+        /*margin: 20px;*/
+        width: 400px;
+        border-width: 2px;
+        width: 50%;
+        height: 400px;
+        float: left;
+        text-align: left;
+        padding-top: 0;
+      }
+
+      .rating{
+        background-color: #f6f3f305;
+      }
+
+      #right-panel {
+        width: 20%;
+      }
+</style>
+{% endblock %}
+
+{% block content %}
+
+    <!-- jumbotron -->
+    <div class="jumbotron jumbotron-fluid bg-dark text-white">
+      <div class="container text-sm-center pt-1">
+        <h1 class="display-2">NOMAD</h1>
+        <p class="lead">Plan your next bike ride!</p>
+      </div>
+    </div>
+    <!-- /jumbotron -->
+
+    <!-- Share configuration FB -->
+    <meta property="og:url"                content="localhost" />
+    <meta property="og:type"               content="event" />
+    <meta property="og:title"              content="Let's Ride" />
+    <meta property="og:description"        content="Bike ride" />
+    <meta property="og:image"              content="http://static01.nyt.com/images/2015/02/19/arts/international/19iht-btnumbers19A/19iht-btnumbers19A-facebookJumbo-v2.jpg" />
+    <!-- /Share configuration FB -->
+
+    {% for e in event %}
+    <!-- base page -->
+    <div class="col-md-12 pt-5" style="text-align: center;">
+    <div class="container row" >
+
+    <div class="col-md-3"style="display: inline-block; text-align: left;"></div>
+      <div class="col-md-6"style="display: inline-block; text-align: left;">
+
+
+      <h2>{{ e.welcome }}</h2>
+
+      <p>{{ e.e_intro }}</p>
+
+      <!-- event title -->
+      <h2>{{ e.e_title }}</h2> <!-- /event title -->
+
+      <p>Host by {{ e.user.user_name }}</p>
+
+      <p>Date: {{ e.e_date }}</p>
+
+      <p>Time: {{ e.time }}</p>
+
+      <p>First Stop: {{ e.location_name }}</p>
+
+      <p>Event Description: Please join us for our 11th Annual Christmas Round Robin! You know the routine! Big dinner at the last stop!!</p>
+
+
+    </div>
+    <div class="col-md-2"style="display: inline-block; text-align: left;">
+    <!-- Your share button code -->
+    <div class="fb-share-button" data-href="https://hackbrightacademy.com/" data-layout="button_count" data-size="large" data-mobile-iframe="true"><a target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fdevelopers.facebook.com%2Fdocs%2Fplugins%2F&amp;src=sdkpreparse" class="fb-xfbml-parse-ignore">Share</a></div>
+    <!-- /Your share button code -->
+    </div>
+    </div>
+    </div><!-- /<div class="container row" style="text-align: center;"> -->
+    {% endfor %}
+    <!-- /base page -->
+
+    <!-- waypoint display -->
+    <div class="container pt-5">
+  <!-- class row -->
+    <div class="row">
+      <!-- map -->
+      <div class="col-md-6" id="map"></div><!-- /map -->
+      <div class="col-md-3" id="directions-panel"></div>
+
+      <!-- waypoint display -->
+{% for e in event %}
+
+  <div class="container pt-5">
+
+    <div class="row">
+        <!-- map -->
+        <div id="map row"></div><!-- /map -->
+
+    <!-- waypoint display -->
+    <div id="right-panel">
+    <b>Start:</b>
+    <form>
+    <input type="text" id="start" name="location" value="{{ e.e_start}}">
+    </form>
+
+    <br>
+
+    <b>Waypoints:</b> <br>
+
+        <select multiple id="waypoints">
+        {% for bar in bars %}
+
+        <option value="{{ bar.bar_address + ' ' + bar.bar_city + ',' + bar.bar_state }}">{{ bar.bar_name }} </option>
+        <!-- {{ e.e_waypoints }} -->
+
+        {% endfor %}
+        </select>
+    <br>
+
+    <br>
+    <b>End:</b>
+    <form>
+    <input type="text" id="end" name="location" value="{{ e.e_endpoint }}">
+    </form>
+
+    <br>
+      <input type="submit" id="submit" value="Submit Route" class="btn btn-success">
+    </div>
+    <!-- <div id="directions-panel"></div> -->
+    </div><!-- /waypoint display -->
+    </div>
+    {% endfor %}
+    <script>
+      function initMap() {
+        var directionsService = new google.maps.DirectionsService;
+        var directionsDisplay = new google.maps.DirectionsRenderer;
+
+        // Map Options
+        var options = {
+            zoom:10,
+            center: {lat:38.0049 , lng: -121.8058}
+        }
+        // New Map
+        var map = new google.maps.Map(document.getElementById('map'), options);
+
+        directionsDisplay.setMap(map);
+
+
+        document.getElementById('submit').addEventListener('click', function() {
+          calculateAndDisplayRoute(directionsService, directionsDisplay);
+
+        });
+
+        }
+
+
+
+      function calculateAndDisplayRoute(directionsService, directionsDisplay) {
+        var waypts = [];
+        var checkboxArray = document.getElementById('waypoints');
+        for (var i = 0; i < checkboxArray.length; i++) {
+          if (checkboxArray.options[i].selected) {
+            waypts.push({
+              location: checkboxArray[i].value,
+              stopover: true
+            });
+          }
+        }
+
+        directionsService.route({
+          origin: document.getElementById('start').value,//enter user address
+          destination: document.getElementById('end').value,//enter user address
+          waypoints: waypts,
+          optimizeWaypoints: true,
+          travelMode: 'DRIVING'
+        }, function(response, status) {
+          if (status === 'OK') {
+            directionsDisplay.setDirections(response);
+            var route = response.routes[0];
+            var summaryPanel = document.getElementById('directions-panel');
+            summaryPanel.innerHTML = '';
+            // For each route, display summary information.
+            for (var i = 0; i < route.legs.length; i++) {
+              var routeSegment = i + 1;
+              summaryPanel.innerHTML += '<b>Route Segment: ' + routeSegment +
+                  '</b><br>';
+              summaryPanel.innerHTML += route.legs[i].start_address + ' to ';
+              summaryPanel.innerHTML += route.legs[i].end_address + '<br>';
+              summaryPanel.innerHTML += route.legs[i].distance.text + '<br><br>';
+            }
+          } else {
+            window.alert('Directions request failed due to ' + status);
+          }
+        });
+      }
+    </script>
+
+
+
+    <!-- API GOES HERE ADD WHEN NEED IT -->
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDUJWRBlAzqy7nETA9rfsRxT7-RZMxxBXA&callback=initMap"
+    async defer></script>
+
+    </div>
+
+    <!-- Load Facebook SDK for JavaScript -->
+    <div id="fb-root"></div>
+    <script>(function(d, s, id) {
+      var js, fjs = d.getElementsByTagName(s)[0];
+      if (d.getElementById(id)) return;
+      js = d.createElement(s); js.id = id;
+      js.src = "https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v3.0";
+      fjs.parentNode.insertBefore(js, fjs);
+    }(document, 'script', 'facebook-jssdk'));</script>
+    <!-- /Load Facebook SDK for JavaScript -->
+
+{% endblock %}

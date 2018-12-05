@@ -36,7 +36,7 @@ def eventfb():
         road_name = user.road_name
         event = Event.query.filter_by(user_id=user_id).all()
 
-    return render_template("EVT2.html", bars=eachBar, road_name=road_name, event=event)
+    return render_template("EVT3.html", bars=eachBar, road_name=road_name, event=event)
     # return "<html><body>Placeholder for the homepage.</body></html>"
 
 # PUBLIC EVENT
@@ -193,7 +193,7 @@ def events():
     waypoints = request.form.get("waypoints")
     end = request.form.get("end")
     #********** if user_id "ON" public trips breaks and user session works fine
-    user_id = session["user_id"]
+    # user_id = session["user_id"]
 
     if request.method == "POST":
 
@@ -204,9 +204,8 @@ def events():
         db.session.commit()
 
 
-
     if "user_id" in session:
-
+        user_id = session["user_id"]
         user = User.query.filter_by(user_id=user_id).first()
         road_name = user.road_name
         # return render_template("PEvent.html", bars=eachBar, road_name=road_name)

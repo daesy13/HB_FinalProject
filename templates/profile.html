@@ -44,7 +44,7 @@
             </div>
             <div class="col-md-6">
                 <div class="profile-head">
-                            <h5>
+                            <h5 style="font-weight: bold;">
                                 {{user.road_name}}
                             </h5>
                             <h6>
@@ -108,8 +108,8 @@
                         <ul>
                         {% for rating in user.ratings %}
                           <li>
-                            <a href="/bars/{{ rating.bar_id }}">{{ rating.bar.bar_name }}</a>
-                            was rated {{ rating.bar_rating + 1 }} out of 5
+                            <a style="font-weight: bold;" href="/bars/{{ rating.bar_id }}">{{ rating.bar.bar_name }}</a>
+                             was rated {{ rating.bar_rating + 1 }} out of 5
                           </li>
                         {% endfor %}
                         </ul>
