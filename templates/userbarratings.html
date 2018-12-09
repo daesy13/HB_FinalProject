@@ -1,0 +1,161 @@
+{% extends "base.html" %}
+
+{% block styles %}
+<style>
+
+    body {
+        background-color: gray;
+        /*background-color: lightgray;*/
+        background-opacity: 0.5;
+    }
+
+    .row {
+        background-color: gray;
+        background-opacity: 0.5;
+    }
+
+    .card {
+             background-color: transparent;
+    }
+
+    .rating {
+        background-color: gray;
+    }
+
+    .card-block {
+        margin-top: 60px;
+    }
+
+    .rating input[type="radio"]:required + label:after {
+        border-radius: 5px;
+        content: '';
+        position: absolute;
+        left: 340px;
+        min-height: 10px;
+        margin-top: -36px;
+        text-align: right;
+        background: #6cbf00;
+        padding: 10px 10px;
+        display: block;
+        width: 80px;
+    }
+
+    .photo_image.card-img-bottom {
+        border-radius: 4px;
+        position: relative;
+        float: left;
+        width:  250px;
+        height: 250px;
+        background-position: 50% 50%;
+        background-repeat: no-repeat;
+        background-size: cover;
+        margin-top: 15px;
+        margin-bottom: 15px;
+    }
+</style>
+{% endblock %}
+{% block content %}
+    <!-- jumbotron -->
+    <div class="jumbotron jumbotron-fluid bg-dark text-white">
+      <div class="container text-sm-center pt-5">
+        <h1 class="display-2">NOMAD</h1>
+        <p class="lead">Plan your next bike ride!</p>
+      </div>
+    </div><!-- /jumbotron -->
+
+
+
+    <!-- bar list -->
+    {% for bar in bars|sort (attribute='bar_name') %}
+    <!-- card box for bars -->
+        <section>
+        <div class="container">
+            <div class="card">
+                <div class="row">
+                    <div class="col-md-4">
+                        <img class="photo_image card-img-bottom" alt="Bar picture" src="{{ bar.bar_pic|safe }}">
+                    </div>
+                    <div class="col-md-6">
+                        <div class="card-block">
+
+                            <h5 class="card-title">{{ bar.bar_name }}</h5>
+                            <p class="card-text">{{ bar.bar_address }}</p>
+                            <p class="card-text">{{ bar.bar_city }}, {{ bar.bar_state }} {{ bar.bar_zip }}</p>
+                            <p class="card-text">{{ bar.bar_phone }}</p>
+
+                            <!-- Rating -->
+                            <form class="rating" id="{{ bar.bar_id }}">
+                                <input type="radio" name="stars" id="4_stars_{{ bar.bar_id }}" value="4" {% if bar.user_rating == 4 %} checked="checked" {% endif %} hidden>
+                                <label class="stars" for="4_stars_{{ bar.bar_id }}">4 stars</label>
+                                <input type="radio" name="stars" id="3_stars_{{ bar.bar_id }}" value="3" {% if bar.user_rating == 3 %} checked="checked" {% endif %} hidden>
+                                <label class="stars" for="3_stars_{{ bar.bar_id }}">3 stars</label>
+                                <input type="radio" name="stars" id="2_stars_{{ bar.bar_id }}" value="2" {% if bar.user_rating == 2 %} checked="checked" {% endif %} hidden>
+                                <label class="stars" for="2_stars_{{ bar.bar_id }}">2 stars</label>
+                                <input type="radio" name="stars" id="1_stars_{{ bar.bar_id }}" value="1" {% if bar.user_rating == 1 %} checked="checked" {% endif %} hidden>
+                                <label class="stars" for="1_stars_{{ bar.bar_id }}">1 star</label>
+                                <input type="radio" name="stars" id="0_stars_{{ bar.bar_id }}" value="0" {% if bar.user_rating == 0 %} checked="checked" {% endif %} required hidden>
+                                <label class="stars" for="0_stars_{{ bar.bar_id }}">0 star</label>
+                                <span  class="label"> Rating: </span>
+                                <!-- <br><input type="submit" class="btn btn-dark" value="Submit"></input> -->
+                            </form>
+
+                    </div>
+                </div>
+
+          </div>
+        </div>
+      </div>
+    </section>
+    <!-- /Rating -->
+
+
+
+      </div><!-- /card-body for bars -->
+    </div><!-- /card box for bars -->
+    {% endfor %}<!-- /bar list -->
+
+
+
+<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <!-- <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script> -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js" integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js" integrity="sha384-h0AbiXch4ZDo7tp9hKZ4TsHbi047NrKGLO3SEJAg45jXxnGIfYzk4Si90RDIqNm1" crossorigin="anonymous"></script>
+
+
+<!-- JavaScript -->
+    <script type="text/javascript">
+        function updateRating(evt) {
+            // debugger;
+            // evt.preventDefault();
+            let ratingElementId=$(evt.target).attr('for');
+            console.log(ratingElementId);
+            let ratingValue = $("#"+ratingElementId).val();
+            let idArray = ratingElementId.split("_");
+            let barId = idArray[idArray.length - 1];
+            console.log(barId);
+            console.log(barId, idArray,ratingElementId,ratingValue, Number(ratingValue)+1);
+
+            $.post('/bars',
+                   {
+                        "id": barId,
+                        "rating": ratingValue
+                   },
+                   function (data) {
+                console.log(data);
+            });
+        }
+
+        $(".rating").on('click', updateRating);
+
+    </script>
+<!-- /JavaScript -->
+
+
+
+<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <!-- <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script> -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js" integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js" integrity="sha384-h0AbiXch4ZDo7tp9hKZ4TsHbi047NrKGLO3SEJAg45jXxnGIfYzk4Si90RDIqNm1" crossorigin="anonymous"></script>
+
+
+{% endblock %}

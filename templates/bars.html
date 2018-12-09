@@ -30,10 +30,7 @@
     {% for bar in bars|sort (attribute='bar_name') %}
     <!-- card box for bars -->
     <div class="card mb-3">
-      <!-- <img class="card-img-top" src="static/img/bardefault.png" alt="Bar default image"> -->
-      <!-- <img class="img-fluid rounded d-none d-sm-block" src="static/img/bardefault.png" alt="Bar default image"> -->
       <picture>{{ bar.bar_pic }}</picture>
-      <!-- {{ bar.bar_pic }} -->
       <!-- card-body for bars -->
       <div class="card-body">
         <h5 class="card-title">{{ bar.bar_name }}</h5>

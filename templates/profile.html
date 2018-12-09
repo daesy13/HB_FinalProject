@@ -109,7 +109,7 @@
                         {% for rating in user.ratings %}
                           <li>
                             <a style="font-weight: bold;" href="/bars/{{ rating.bar_id }}">{{ rating.bar.bar_name }}</a>
-                             was rated {{ rating.bar_rating + 1 }} out of 5
+                             was rated {{ rating.bar_rating }} out of 5
                           </li>
                         {% endfor %}
                         </ul>
